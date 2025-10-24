@@ -1,9 +1,11 @@
 pcsx
 pcsx.map
 *.o
+skin
 config.log
 config.mak
 plugins/*.a
 plugins/*.so
 plugins/*/*.a
 plugins/*/*.so
+frontend/revision.h

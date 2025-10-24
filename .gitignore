@@ -1,0 +1,9 @@
+pcsx
+pcsx.map
+*.o
+config.log
+config.mak
+plugins/*.a
+plugins/*.so
+plugins/*/*.a
+plugins/*/*.so

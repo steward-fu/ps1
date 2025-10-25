@@ -250,6 +250,42 @@ OBJS += libpcsxcore/memmap_win32.o
 endif
 endif
 
+ifeq "$(PLATFORM)" "xt894"
+OBJS += frontend/libpicofe/in_sdl.o
+OBJS += frontend/libpicofe/plat_sdl.o
+OBJS += frontend/libpicofe/plat_dummy.o
+OBJS += frontend/libpicofe/linux/in_evdev.o
+OBJS += frontend/plat_sdl.o
+ifeq "$(HAVE_GLES)" "1"
+OBJS += frontend/libpicofe/gl.o frontend/libpicofe/gl_platform.o
+LDLIBS += $(LDLIBS_GLES)
+frontend/libpicofe/plat_sdl.o: CFLAGS += -DHAVE_GLES $(CFLAGS_GLES)
+frontend/libpicofe/gl_platform.o: CFLAGS += -DHAVE_GLES $(CFLAGS_GLES)
+frontend/libpicofe/gl.o: CFLAGS += -DHAVE_GLES $(CFLAGS_GLES)
+frontend/plat_sdl.o: CFLAGS += -DHAVE_GLES $(CFLAGS_GLES)
+endif
+USE_PLUGIN_LIB = 1
+USE_FRONTEND = 1
+endif
+
+ifeq "$(PLATFORM)" "xt897"
+OBJS += frontend/libpicofe/in_sdl.o
+OBJS += frontend/libpicofe/plat_sdl.o
+OBJS += frontend/libpicofe/plat_dummy.o
+OBJS += frontend/libpicofe/linux/in_evdev.o
+OBJS += frontend/plat_sdl.o
+ifeq "$(HAVE_GLES)" "1"
+OBJS += frontend/libpicofe/gl.o frontend/libpicofe/gl_platform.o
+LDLIBS += $(LDLIBS_GLES)
+frontend/libpicofe/plat_sdl.o: CFLAGS += -DHAVE_GLES $(CFLAGS_GLES)
+frontend/libpicofe/gl_platform.o: CFLAGS += -DHAVE_GLES $(CFLAGS_GLES)
+frontend/libpicofe/gl.o: CFLAGS += -DHAVE_GLES $(CFLAGS_GLES)
+frontend/plat_sdl.o: CFLAGS += -DHAVE_GLES $(CFLAGS_GLES)
+endif
+USE_PLUGIN_LIB = 1
+USE_FRONTEND = 1
+endif
+
 ifeq "$(USE_PLUGIN_LIB)" "1"
 OBJS += frontend/plugin_lib.o
 OBJS += frontend/libpicofe/linux/plat.o
@@ -385,3 +421,30 @@ rel: pcsx $(PLUGINS) \
 	mkdir out/pcsx_rearmed/bios/
 	cd out && zip -9 -r ../pcsx_rearmed_$(VER)_caanoo.zip *
 endif
+
+ifeq "$(PLATFORM)" "xt894"
+OUT = pcsx_rearmed_$(VER)
+
+rel: pcsx $(PLUGINS) \
+		frontend/pandora/skin readme.txt COPYING
+	rm -rf $(OUT)
+	mkdir -p $(OUT)/plugins
+	mkdir -p $(OUT)/bios
+	cp -r $^ $(OUT)/
+	mv $(OUT)/*.so* $(OUT)/plugins/
+	zip -9 -r $(OUT).zip $(OUT)
+endif
+
+ifeq "$(PLATFORM)" "xt897"
+OUT = pcsx_rearmed_$(VER)
+
+rel: pcsx $(PLUGINS) \
+		frontend/pandora/skin readme.txt COPYING
+	rm -rf $(OUT)
+	mkdir -p $(OUT)/plugins
+	mkdir -p $(OUT)/bios
+	cp -r $^ $(OUT)/
+	mv $(OUT)/*.so* $(OUT)/plugins/
+	zip -9 -r $(OUT).zip $(OUT)
+endif
+

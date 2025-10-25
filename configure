@@ -37,7 +37,7 @@ check_define_val()
 # setting options to "yes" or "no" will make that choice default,
 # "" means "autodetect".
 
-platform_list="generic pandora maemo caanoo libretro"
+platform_list="generic pandora maemo caanoo libretro xt894 xt897"
 platform="generic"
 builtin_gpu_list="neon peops unai unai_old"
 builtin_gpu=""
@@ -123,6 +123,22 @@ set_platform()
   libretro)
     sound_drivers="libretro"
     need_libpicofe="no"
+    ;;
+  xt894)
+    sound_drivers="pulseaudio"
+    drc_cache_base="yes"
+    optimize_cortexa8="yes"
+    have_arm_neon="yes"
+    need_xlib="no"
+    CFLAGS="$CFLAGS -DXT894"
+    ;;
+  xt897)
+    sound_drivers="pulseaudio"
+    drc_cache_base="yes"
+    optimize_cortexa8="yes"
+    have_arm_neon="yes"
+    need_xlib="no"
+    CFLAGS="$CFLAGS -DXT897"
     ;;
   *)
     fail "unsupported platform: $platform"
@@ -330,6 +346,12 @@ maemo)
 libretro)
   CFLAGS="$CFLAGS -fPIC"
   MAIN_LDFLAGS="$MAIN_LDFLAGS -shared -Wl,--no-undefined"
+  ;;
+xt894)
+  need_sdl="yes"
+  ;;
+xt897)
+  need_sdl="yes"
   ;;
 esac
 

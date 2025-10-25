@@ -94,7 +94,7 @@ int plat_sdl_change_video_mode(int w, int h, int force)
 
     if (!plat_sdl_screen || screen_flags != flags ||
         plat_sdl_screen->w != win_w || plat_sdl_screen->h != win_h)
-      plat_sdl_screen = SDL_SetVideoMode(win_w, win_h, 0, flags);
+      plat_sdl_screen = SDL_SetVideoMode(win_w, win_h, 16, flags);
     screen_flags = flags;
     if (plat_sdl_screen == NULL) {
       fprintf(stderr, "SDL_SetVideoMode failed: %s\n", SDL_GetError());
@@ -225,8 +225,8 @@ int plat_sdl_init(void)
 
   info = SDL_GetVideoInfo();
   if (info != NULL) {
-    fs_w = info->current_w;
-    fs_h = info->current_h;
+    fs_w = 640; // info->current_w;
+    fs_h = 480; // info->current_h;
     if (info->wm_available)
       window_b = WM_DECORATION_H;
     printf("plat_sdl: using %dx%d as fullscreen resolution\n", fs_w, fs_h);
@@ -246,7 +246,7 @@ int plat_sdl_init(void)
 
   plat_sdl_screen = SDL_SetVideoMode(g_menuscreen_w, g_menuscreen_h, 16, SDL_HWSURFACE);
   if (plat_sdl_screen == NULL) {
-    plat_sdl_screen = SDL_SetVideoMode(0, 0, 16, SDL_SWSURFACE);
+    plat_sdl_screen = SDL_SetVideoMode(fs_w, fs_h, 16, SDL_SWSURFACE);
     if (plat_sdl_screen == NULL) {
       fprintf(stderr, "SDL_SetVideoMode failed: %s\n", SDL_GetError());
       goto fail;
@@ -263,8 +263,7 @@ int plat_sdl_init(void)
   g_menuscreen_pp = g_menuscreen_w;
 
   // overlay/gl require native bpp in some cases..
-  plat_sdl_screen = SDL_SetVideoMode(g_menuscreen_w, g_menuscreen_h,
-    0, plat_sdl_screen->flags);
+  plat_sdl_screen = SDL_SetVideoMode(g_menuscreen_w, g_menuscreen_h, 16, plat_sdl_screen->flags);
   if (plat_sdl_screen == NULL) {
     fprintf(stderr, "SDL_SetVideoMode failed: %s\n", SDL_GetError());
     goto fail;

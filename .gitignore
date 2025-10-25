@@ -1,0 +1,5 @@
+config.log
+config.mak
+skin
+plugins/*.so
+plugins/*/*.so

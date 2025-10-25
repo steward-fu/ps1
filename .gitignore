@@ -1,4 +1,5 @@
 pcsx
+.pcsx
 pcsx.map
 *.o
 skin

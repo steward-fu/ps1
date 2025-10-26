@@ -251,11 +251,11 @@ endif
 endif
 
 ifeq "$(PLATFORM)" "xt894"
-OBJS += frontend/libpicofe/in_sdl.o
-OBJS += frontend/libpicofe/plat_sdl.o
+OBJS += frontend/libpicofe/in_sfos.o
+OBJS += frontend/libpicofe/plat_sfos.o
 OBJS += frontend/libpicofe/plat_dummy.o
 OBJS += frontend/libpicofe/linux/in_evdev.o
-OBJS += frontend/plat_sdl.o
+OBJS += frontend/plat_sfos.o
 ifeq "$(HAVE_GLES)" "1"
 OBJS += frontend/libpicofe/gl.o frontend/libpicofe/gl_platform.o
 LDLIBS += $(LDLIBS_GLES)
@@ -269,11 +269,11 @@ USE_FRONTEND = 1
 endif
 
 ifeq "$(PLATFORM)" "xt897"
-OBJS += frontend/libpicofe/in_sdl.o
-OBJS += frontend/libpicofe/plat_sdl.o
+OBJS += frontend/libpicofe/in_sfos.o
+OBJS += frontend/libpicofe/plat_sfos.o
 OBJS += frontend/libpicofe/plat_dummy.o
 OBJS += frontend/libpicofe/linux/in_evdev.o
-OBJS += frontend/plat_sdl.o
+OBJS += frontend/plat_sfos.o
 ifeq "$(HAVE_GLES)" "1"
 OBJS += frontend/libpicofe/gl.o frontend/libpicofe/gl_platform.o
 LDLIBS += $(LDLIBS_GLES)
@@ -315,7 +315,7 @@ OBJS += frontend/main.o frontend/plugin.o
 frontend/main.o: CFLAGS += -DBUILTIN_GPU=$(BUILTIN_GPU)
 
 frontend/menu.o frontend/main.o: frontend/revision.h
-frontend/plat_sdl.o frontend/libretro.o: frontend/revision.h
+frontend/plat_sdl.o frontend/plat_sfos.o frontend/libretro.o: frontend/revision.h
 
 frontend/libpicofe/%.c:
 	@echo "libpicofe module is missing, please run:"
